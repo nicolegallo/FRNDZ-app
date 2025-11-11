@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FRNDZ – Coming Soon</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="frndz_icon.png" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      background-color: #e24e08; /* FRNDZ Orange */
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+    .logo {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.3cap;
+    }
+
+    .logo-img {
+      width: 120px;
+      height: auto;
+      margin-bottom: 1rem;
+    }
+    .tagline {
+      font-size: 1.25rem;
+      font-weight: 400;
+      margin-bottom: 2rem;
+      font-style: italic;
+    }
+
+    .link-ig {
+    color:white;
+}
+     .link-ig:hover {
+      color: rgb(200, 200, 200);
+    }
+    .email-signup form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 400px;
+      gap: 0.75rem;
+    }
+    .email-signup input[type="text"],
+    .email-signup input[type="email"] {
+      width: 100%;
+      padding: 0.75rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    .email-signup button {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: white;
+      color: #FF7300;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .email-signup button:hover {
+      opacity: 0.9;
+    }
+    .footer {
+      margin-top: 3rem;
+      font-size: 0.85rem;
+      opacity: 0.75;
+    }
+    @media (min-width: 600px) {
+      .logo {
+        font-size: 3rem;
+      }
+      .tagline {
+        font-size: 1.25rem;
+      }
+      
+      .email-signup form {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+      .email-signup input[type="text"],
+      .email-signup input[type="email"] {
+        flex: 1;
+        margin-bottom: 0;
+      }
+      .email-signup button {
+        width: auto;
+        margin-left: 0.5rem;
+      }
+    }
+
+    #name, #email{
+      font-size: small;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="logo">FRNDZ</div>
+    <img src="/FRNDZ_logo_website.png" alt="FRNDZ Logo" class="logo-img" />
+  <div class="tagline">We met through FRNDZ.</div>
+
+  <div class="email-signup">
+    <form onsubmit="handleSubmit(event)">
+      <input type="text" id="name" placeholder="Enter your name" required />
+      <input type="email" id="email" placeholder="Enter your email" required />
+      <button type="submit">Notify Me</button>
+    </form>
+  </div>
+
+  <div class="footer">Launching soon on iOS – Follow us <a href="https://www.instagram.com/thefrndzapp" class="link-ig" target="_blank">@thefrndzapp</a> for updates</div>
+
+  <script>
+    async function handleSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const endpoint = 'https://sheetdb.io/api/v1/muvpjklqdudub';
+
+      try {
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ data: [{ name, email }] })
+        });
+
+        if (response.ok) {
+          alert(`Thanks for signing up, ${name}! We'll keep you posted.`);
+          document.getElementById('name').value = '';
+          document.getElementById('email').value = '';
+        } else {
+          alert('Oops! Something went wrong.');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Network error. Please try again later.');
+      }
+    }
+  </script>
+</body>
+</html>
