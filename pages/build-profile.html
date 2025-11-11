@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FRNDZ – Build Profile</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background-color: #e24e08;
+      color: white;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      width: 100%;
+      max-width: 400px;
+      text-align: left;
+    }
+    input, textarea, button {
+      padding: 0.75rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+    button {
+      background-color: white;
+      color: #e24e08;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:hover {
+      opacity: 0.9;
+    }
+    .note {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div id="navbar"></div>
+  <h1>Build Player Profile</h1>
+  <p class="note">You're setting up the profile for your friend <strong id="playerName">...</strong></p>
+
+  <form id="profileForm">
+    <input type="number" id="age" placeholder="Age" required />
+    <textarea id="bio" placeholder="Short bio about your friend..." required></textarea>
+    <input type="text" id="interests" placeholder="Interests (comma separated)" required />
+    <button type="submit">Save Profile</button>
+  </form>
+
+  <div id="statusMsg" style="margin-top: 1.5rem;"></div>
+
+  <script>
+    const code = localStorage.getItem("frndz_code");
+    const playerName = localStorage.getItem("frndz_player");
+    document.getElementById("playerName").textContent = playerName;
+
+    const form = document.getElementById("profileForm");
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const age = document.getElementById("age").value.trim();
+      const bio = document.getElementById("bio").value.trim();
+      const interests = document.getElementById("interests").value.trim().split(',').map(i => i.trim()).filter(Boolean);
+
+      const fullProfile = {
+        name: playerName,
+        age: age,
+        bio: bio,
+        interests: interests
+      };
+
+      localStorage.setItem("player_" + code, JSON.stringify(fullProfile));
+
+      document.getElementById("statusMsg").textContent = "✅ Profile saved successfully!";
+      form.reset();
+    });
+  </script>
+    <script type="module">
+  // Load navbar.html into #navbar
+  fetch('/components/navbar.html')
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById('navbar').outerHTML = html;
+      // Now load logic
+      import('/scripts/nav-loader.js');
+    });
+</script>
+</body>
+</html>

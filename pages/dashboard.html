@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FRNDZ – Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="icon" type="image/png" href="../assets/frndz_icon.png" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background-color: #e24e08;
+      color: white;
+      padding: 2rem;
+      min-height: 100vh;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .section {
+      background: white;
+      color: #e24e08;
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      text-align: left;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .section h2 {
+      margin-top: 0;
+    }
+    .section p {
+      margin: 0.25rem 0;
+    }
+    .button-group {
+      margin-top: 1rem;
+    }
+    .button-group a {
+      display: inline-block;
+      margin: 0.5rem;
+      padding: 0.5rem 1.25rem;
+      background-color: #e24e08;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+    .button-group a:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+    <div id="navbar"></div>
+  <h1>FRNDZ Dashboard</h1>
+
+  <div class="section" id="accountInfo">
+    <h2>Account Info</h2>
+    <p><strong>Role:</strong> <span id="roleText">Loading...</span></p>
+    <p><strong>Linked Player:</strong> <span id="playerText">Loading...</span></p>
+    <p><strong>Friend Code:</strong> <span id="codeText">Loading...</span></p>
+  </div>
+
+  <div class="section" id="profileSection">
+    <h2>Player Profile</h2>
+    <p id="profileStatus">Checking profile status...</p>
+    <div class="button-group">
+      <a href="/pages/build-profile.html">Edit Profile</a>
+    </div>
+  </div>
+
+  <div class="section" id="matchSection">
+    <h2>Last Selected Match</h2>
+    <p id="matchInfo">No match selected yet.</p>
+    <div class="button-group">
+      <a href="/pages/discover.html">Browse Matches</a>
+      <a href="/pages/match-preview.html">View Last Match</a>
+    </div>
+  </div>
+
+  <script type="module">
+  import { getRole, getLinkedPlayer, getCode, getProfile } from '/scripts/storage.js';
+
+const role = getRole();
+const player = getLinkedPlayer();
+const code = getCode();
+
+console.log("role:", role);
+console.log("player:", player);
+console.log("code:", code);
+
+document.getElementById("roleText").textContent = role ?? 'Not signed in';
+document.getElementById("playerText").textContent = player ?? 'N/A';
+document.getElementById("codeText").textContent = code ?? 'N/A';
+
+
+  const profile = getProfile();
+  const profileStatus = document.getElementById("profileStatus");
+  if (profile && profile.name) {
+    profileStatus.textContent = "Profile created for " + profile.name;
+  } else {
+    profileStatus.textContent = "No profile created yet.";
+  }
+
+  const match = JSON.parse(localStorage.getItem("selectedMatch"));
+  const matchInfo = document.getElementById("matchInfo");
+  if (match && match.name) {
+    matchInfo.innerHTML = `<strong>${match.name}</strong>, ${match.age}<br>${match.bio}`;
+  }
+</script>
+
+    <script type="module">
+  // Load navbar.html into #navbar
+  fetch('/components/navbar.html')
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById('navbar').outerHTML = html;
+      // Now load logic
+      import('/scripts/nav-loader.js');
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FRNDZ – Match Preview</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background-color: #e24e08;
+      color: white;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .card {
+      background: white;
+      color: #e24e08;
+      padding: 2rem;
+      border-radius: 12px;
+      max-width: 500px;
+      width: 100%;
+      text-align: left;
+    }
+    .card h2 {
+      margin-top: 0;
+    }
+    .card p {
+      margin: 0.5rem 0;
+    }
+    .card ul {
+      padding-left: 1rem;
+    }
+    .card button {
+      margin-top: 1rem;
+      background-color: #e24e08;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Match Preview</h1>
+  <div class="card" id="matchCard">
+    <h2 id="matchName">Loading...</h2>
+    <p><strong>Age:</strong> <span id="matchAge">—</span></p>
+    <p><strong>Bio:</strong> <span id="matchBio">—</span></p>
+    <p><strong>Interests:</strong></p>
+    <ul id="matchInterests"></ul>
+    <button onclick="startChat()">Start Chat</button>
+  </div>
+
+  <script>
+    const match = JSON.parse(localStorage.getItem("selectedMatch")) || {};
+
+    document.getElementById("matchName").textContent = match.name || "Unknown";
+    document.getElementById("matchAge").textContent = match.age || "—";
+    document.getElementById("matchBio").textContent = match.bio || "—";
+
+    const interests = match.interests || [];
+    const list = document.getElementById("matchInterests");
+    interests.forEach(item => {
+      const li = document.createElement("li");
+      li.textContent = item;
+      list.appendChild(li);
+    });
+
+    function startChat() {
+      // You could store match ID/code here if needed for chat routing
+      window.location.href = "chat.html";
+    }
+  </script>
+</body>
+</html>

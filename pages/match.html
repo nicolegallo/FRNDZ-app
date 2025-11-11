@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FRNDZ – You’re Matched!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="icon" type="image/png" href="frndz_icon.png" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background-color: #e24e08;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      min-height: 100vh;
+    }
+    .logo-img {
+      width: 100px;
+      margin-bottom: 1rem;
+    }
+    .logo {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+    .headline {
+      font-size: 2rem;
+      font-weight: 600;
+      margin: 1rem 0;
+    }
+    .message {
+      font-size: 1.1rem;
+      max-width: 500px;
+      margin-bottom: 2rem;
+    }
+    .button {
+      padding: 0.75rem 1.5rem;
+      background-color: white;
+      color: #e24e08;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .button:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+  <div id="navbar"></div>
+
+  <img src="/FRNDZ_logo_website.png" alt="FRNDZ Logo" class="logo-img" />
+  <div class="logo">FRNDZ</div>
+  <div class="headline">Your friend has been matched! 🎉</div>
+  <div class="message">
+   Let’s chat with the other FRNDZ and see if this is a fit
+  </div>
+  <button class="button" onclick="goToHome()">Return to Home</button>
+
+  <script>
+    function goToHome() {
+      window.location.href = "index.html";
+    }
+  </script>
+  <script type="module">
+  // Load navbar.html into #navbar
+  fetch('/components/navbar.html')
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById('navbar').outerHTML = html;
+      // Now load logic
+      import('/scripts/nav-loader.js');
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FRNDZ – Account Settings</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="icon" type="image/png" href="frndz_icon.png" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background-color: #e24e08;
+      color: white;
+      min-height: 100vh;
+      padding-top: 60px;
+      text-align: center;
+    }
+
+    nav.navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: white;
+      color: #e24e08;
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      font-weight: 600;
+      z-index: 1000;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    nav.navbar a {
+      color: #e24e08;
+      text-decoration: none;
+      font-size: 1.1rem;
+    }
+
+    nav.navbar a:hover {
+      opacity: 0.75;
+    }
+
+    .content {
+      padding: 2rem;
+    }
+
+    .content h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .content p {
+      font-size: 1.1rem;
+      margin: 0.5rem 0;
+    }
+
+    button {
+      margin-top: 2rem;
+      padding: 0.75rem 1.25rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      background-color: white;
+      color: #e24e08;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+<div id="navbar"></div>
+
+
+  <div class="content">
+    <h2>Account Settings</h2>
+    <p id="roleDisplay"></p>
+    <p id="playerDisplay"></p>
+    <button onclick="logout()">Log Out & Clear App Data</button>
+  </div>
+
+  <script type="module">
+    import { getRole, getLinkedPlayer, clearAppData } from '/scripts/storage.js';
+
+    const role = getRole();
+    const player = getLinkedPlayer();
+    const navbar = document.getElementById("navbar");
+
+    // Inject nav links based on role presence
+    if (role) {
+      navbar.innerHTML = '<a href="/welcome.html">🏠 Home</a><a href="settings.html">⚙️ Account</a>';
+    } else {
+      navbar.innerHTML = '<a href="/welcome.html">🏠 Home</a><a href="friend-code-confirmation.html">🔐 Sign In</a>';
+    }
+
+    document.getElementById("roleDisplay").textContent = role ? `Your role: ${role}` : 'Not signed in.';
+    document.getElementById("playerDisplay").textContent = player ? `Linked Player: ${player}` : '';
+
+    window.logout = function () {
+      clearAppData();
+      alert("You've been signed out.");
+      window.location.href = "/welcome.html";
+    };
+  </script>
+  <script type="module">
+  // Load navbar.html into #navbar
+  fetch('/components/navbar.html')
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById('navbar').outerHTML = html;
+      // Now load logic
+      import('/scripts/nav-loader.js');
+    });
+</script>
+
+</body>
+</html>

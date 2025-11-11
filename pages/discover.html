@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FRNDZ – Discover Matches</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background-color: #e24e08;
+      color: white;
+      padding: 2rem;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background: white;
+      color: #e24e08;
+      border-radius: 12px;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .card h2 {
+      margin: 0 0 0.25rem 0;
+    }
+    .card p {
+      margin: 0.25rem 0;
+    }
+    .card button {
+      margin-top: 0.75rem;
+      background-color: #e24e08;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div id="navbar"></div>
+  <h1>Discover Players</h1>
+  <div class="grid" id="profileGrid"></div>
+
+  <script>
+    const grid = document.getElementById("profileGrid");
+
+    Object.keys(localStorage).forEach(key => {
+      if (key.startsWith("player_")) {
+        try {
+          const profile = JSON.parse(localStorage.getItem(key));
+          if (profile.name && profile.bio) {
+            const card = document.createElement("div");
+            card.className = "card";
+            card.innerHTML = `
+              <h2>${profile.name}</h2>
+              <p><strong>Age:</strong> ${profile.age || "Unknown"}</p>
+              <p><strong>Bio:</strong> ${profile.bio}</p>
+              <button onclick="viewProfile('${key}')">View Match</button>
+            `;
+            grid.appendChild(card);
+          }
+        } catch (err) {
+          console.error("Error parsing profile:", key);
+        }
+      }
+    });
+
+    function viewProfile(key) {
+      const profile = JSON.parse(localStorage.getItem(key));
+      localStorage.setItem("selectedMatch", JSON.stringify(profile));
+      window.location.href = "/pages/match-preview.html";
+    }
+  </script>
+      <script type="module">
+  // Load navbar.html into #navbar
+  fetch('/components/navbar.html')
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById('navbar').outerHTML = html;
+      // Now load logic
+      import('/scripts/nav-loader.js');
+    });
+</script>
+</body>
+</html>

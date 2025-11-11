@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FRNDZ – Enter Invite Code</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="icon" type="image/png" href="FRNDZ_logo_website.png" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background-color: #e24e08;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      padding: 2rem;
+    }
+    .logo-img {
+      width: 120px;
+      height: auto;
+      margin-bottom: 1rem;
+    }
+    .logo {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .tagline {
+      font-size: 1.1rem;
+      font-style: italic;
+      margin-bottom: 2rem;
+    }
+    .invite-form {
+      max-width: 400px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .invite-form input {
+      padding: 0.75rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    .invite-form button {
+      padding: 0.75rem;
+      border: none;
+      border-radius: 8px;
+      background-color: white;
+      color: #e24e08;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .invite-form button:hover {
+      opacity: 0.9;
+    }
+    .footer {
+      margin-top: 3rem;
+      font-size: 0.85rem;
+      opacity: 0.75;
+    }
+  </style>
+</head>
+<body>
+  <div id="navbar"></div>
+
+  <img src="/FRNDZ_logo_website.png" alt="FRNDZ Logo" class="logo-img" />
+  <div class="logo">FRNDZ</div>
+  <div class="tagline">Enter the invite code to begin</div>
+
+  <div class="invite-form">
+    <input type="text" id="invite-code" placeholder="Invite Code" required />
+    <button onclick="handleInvite()">Continue</button>
+  </div>
+
+  <div class="footer">Need a code? Ask a friend already using FRNDZ.</div>
+
+  <script>
+    function handleInvite() {
+      const code = document.getElementById('invite-code').value.trim();
+      if (code.toLowerCase() === "frndz2025") {
+        window.location.href = "/pages/build-profile.html"; // Simulated routing
+      } else {
+        alert("Invalid code. Try again or contact your inviter.");
+      }
+    }
+  </script>
+  <script type="module">
+  // Load navbar.html into #navbar
+  fetch('/components/navbar.html')
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById('navbar').outerHTML = html;
+      // Now load logic
+      import('/scripts/nav-loader.js');
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,149 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FRNDZ – Team Chat</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="icon" type="image/png" href="frndz_icon.png" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background-color: #e24e08;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      padding: 1rem;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .logo-img {
+      width: 80px;
+    }
+    .chat-box {
+      background-color: white;
+      color: #333;
+      border-radius: 12px;
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    .message {
+      margin-bottom: 1rem;
+    }
+    .message strong {
+      color: #e24e08;
+    }
+    .chat-input {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .chat-input input {
+      flex: 1;
+      padding: 0.75rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    .chat-input button {
+      background-color: white;
+      color: #e24e08;
+      border: none;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .chat-input button:hover {
+      opacity: 0.9;
+    }
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .actions button {
+      background-color: white;
+      color: #e24e08;
+      border: none;
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .actions button:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+  <div id="navbar"></div>
+
+  <header>
+    <img src="/FRNDZ_logo_website.png" alt="FRNDZ Logo" class="logo-img" />
+    <h2 id="chatHeader">FRNDZ Team Chat</h2>
+    <p>Chat with the other FRNDZ team to see if your friends are a good fit!</p>
+  </header>
+
+  <div class="chat-box" id="chatBox">
+    <div class="message"><strong>Alex (PlayerFRNDZ):</strong> Our friend Taylor is thoughtful and loves hiking!</div>
+    <div class="message"><strong>Sam (MatchFRNDZ):</strong> That sounds like Jordan. They love nature too!</div>
+  </div>
+
+  <div class="chat-input">
+    <input type="text" id="chatInput" placeholder="Type a message..." />
+    <button onclick="sendMessage()">Send</button>
+  </div>
+
+  <div class="actions">
+    <button onclick="alert('You approved this match!')">Approve Match</button>
+    <button onclick="alert('You passed on this match.')">Pass</button>
+  </div>
+
+  <script type="module">
+    import { getLinkedPlayer } from '/scripts/storage.js';
+
+    const match = JSON.parse(localStorage.getItem('selectedMatch'));
+    const player = getLinkedPlayer();
+    const header = document.getElementById("chatHeader");
+
+    if (player && match && match.name) {
+      header.textContent = `${player}'s FRNDZ ↔ ${match.name}'s FRNDZ`;
+    }
+
+    window.sendMessage = function () {
+      const input = document.getElementById('chatInput');
+      const message = input.value.trim();
+      if (message) {
+        const chatBox = document.getElementById('chatBox');
+        const div = document.createElement('div');
+        div.className = 'message';
+        div.innerHTML = '<strong>You:</strong> ' + message;
+        chatBox.appendChild(div);
+        chatBox.scrollTop = chatBox.scrollHeight;
+        input.value = '';
+      }
+    };
+  </script>
+  <script type="module">
+  // Load navbar.html into #navbar
+  fetch('/components/navbar.html')
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById('navbar').outerHTML = html;
+      // Now load logic
+      import('/scripts/nav-loader.js');
+    });
+</script>
+
+</body>
+</html>
